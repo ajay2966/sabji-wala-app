@@ -40,7 +40,7 @@ export default function CartScreen() {
       style={styles.safe}
       contentContainerStyle={[
         styles.content,
-        { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 24 },
+        { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 96 },
       ]}
     >
       <Text style={styles.title}>Your cart</Text>

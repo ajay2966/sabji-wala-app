@@ -24,7 +24,7 @@ export default function OrdersScreen() {
         onRefresh={refreshOrders}
         contentContainerStyle={[
           styles.content,
-          { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 24 },
+          { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 96 },
         ]}
         ListHeaderComponent={
           <View style={styles.header}>

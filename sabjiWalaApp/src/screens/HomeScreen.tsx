@@ -44,7 +44,7 @@ export default function HomeScreen() {
         keyExtractor={item => item.id}
         contentContainerStyle={[
           styles.list,
-          { paddingTop: 12, paddingBottom: insets.bottom + 30 },
+          { paddingTop: 12, paddingBottom: insets.bottom + 106 },
         ]}
         ListHeaderComponent={
           <>
