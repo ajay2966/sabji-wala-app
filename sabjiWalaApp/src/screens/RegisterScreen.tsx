@@ -7,9 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  View,
 } from 'react-native';
-import { FlatList, Modal } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { colors } from '../theme/colors';
 import { AuthParamList } from '../navigation/AuthStack';
@@ -486,71 +484,10 @@ const citiesByState: Record<string, string[]> = {
 };
 const states = Object.keys(citiesByState);
 
-function SelectField({
-  label,
-  value,
-  options,
-  placeholder,
-  disabled,
-  onSelect,
-}: {
-  label: string;
-  value: string;
-  options: string[];
-  placeholder: string;
-  disabled?: boolean;
-  onSelect: (value: string) => void;
-}) {
-  const [visible, setVisible] = useState(false);
-  return (
-    <View style={styles.selectWrap}>
-      <Text style={styles.selectLabel}>{label}</Text>
-      <Pressable
-        disabled={disabled}
-        onPress={() => setVisible(true)}
-        style={[styles.select, disabled && styles.selectDisabled]}
-      >
-        <Text style={value ? styles.selectValue : styles.selectPlaceholder}>
-          {value || placeholder}
-        </Text>
-        <Text style={styles.chevron}>⌄</Text>
-      </Pressable>
-      <Modal visible={visible} transparent animationType="fade">
-        <Pressable
-          style={styles.modalBackdrop}
-          onPress={() => setVisible(false)}
-        >
-          <View style={styles.optionSheet}>
-            <Text style={styles.optionTitle}>Select {label}</Text>
-            <FlatList
-              data={options}
-              keyExtractor={item => item}
-              renderItem={({ item }) => (
-                <Pressable
-                  onPress={() => {
-                    onSelect(item);
-                    setVisible(false);
-                  }}
-                  style={styles.option}
-                >
-                  <Text style={styles.optionText}>{item}</Text>
-                </Pressable>
-              )}
-            />
-          </View>
-        </Pressable>
-      </Modal>
-    </View>
-  );
-}
-
 export default function RegisterScreen({ navigation }: Props) {
   const [name, setName] = useState('');
   const [mobile, setMobile] = useState('');
-  const [state, setState] = useState('');
-  const [city, setCity] = useState('');
-  const [street, setStreet] = useState('');
-  const [landmark, setLandmark] = useState('');
+  const [address, setAddress] = useState('');
   const [error, setError] = useState('');
   const validMobile = /^[6-9]\d{9}$/.test(mobile);
   return (
@@ -587,41 +524,14 @@ export default function RegisterScreen({ navigation }: Props) {
           error={error && !validMobile ? error : undefined}
           compact
         />
-        <SelectField
-          label="State"
-          value={state}
-          options={states}
-          placeholder="Select your state"
-          onSelect={selectedState => {
-            setState(selectedState);
-            setCity('');
-          }}
-        />
-        <SelectField
-          label="City"
-          value={city}
-          options={state ? citiesByState[state] : []}
-          placeholder={state ? 'Select your city' : 'Select state first'}
-          disabled={!state}
-          onSelect={setCity}
-        />
         <Input
-          label="Street"
-          value={street}
-          onChangeText={setStreet}
-          placeholder="House number and street"
-          autoCapitalize="words"
-          error={error && !street.trim() ? error : undefined}
-          compact
-        />
-        <Input
-          label="Landmark"
-          value={landmark}
-          onChangeText={setLandmark}
-          placeholder="Nearby landmark"
-          autoCapitalize="words"
-          error={error && !landmark.trim() ? error : undefined}
-          compact
+          label="Address"
+          value={address}
+          onChangeText={setAddress}
+          placeholder="House no, street, city, landmark"
+          multiline
+          textAlignVertical="top"
+          error={error && !address.trim() ? error : undefined}
         />
         <Button
           title="Send OTP"
@@ -629,20 +539,14 @@ export default function RegisterScreen({ navigation }: Props) {
             if (!name.trim()) setError('Please enter your full name');
             else if (!validMobile)
               setError('Enter a valid 10-digit mobile number');
-            else if (
-              !state.trim() ||
-              !city.trim() ||
-              !street.trim() ||
-              !landmark.trim()
-            )
-              setError('Please complete your address');
+            else if (!address.trim()) setError('Please complete your address');
             else {
               setError('');
               navigation.navigate('Otp', {
                 mode: 'register',
                 name: name.trim(),
                 mobile,
-                address: `${street.trim()}, ${landmark.trim()}, ${city.trim()}, ${state.trim()}`,
+                address: address.trim(),
               });
             }
           }}

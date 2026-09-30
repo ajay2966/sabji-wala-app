@@ -9,8 +9,10 @@ import { DELIVERY_FEE } from '../config/constants';
 import { colors } from '../theme/colors';
 import { UserStackParamList } from '../navigation/RootNavigator';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function CartScreen() {
   const { cart, products, updateCart } = useApp();
+  const insets = useSafeAreaInsets();
   const navigation =
     useNavigation<NativeStackNavigationProp<UserStackParamList>>();
   const rows = cart
@@ -29,12 +31,18 @@ export default function CartScreen() {
         <EmptyState
           title="Your cart is empty"
           message="Pick something fresh for your next meal."
-          action={() => navigation.navigate('Tabs')}
+          action={() => navigation.navigate('Home' as never)}
         />
       </View>
     );
   return (
-    <ScrollView style={styles.safe} contentContainerStyle={styles.content}>
+    <ScrollView
+      style={styles.safe}
+      contentContainerStyle={[
+        styles.content,
+        { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 24 },
+      ]}
+    >
       <Text style={styles.title}>Your cart</Text>
       {rows.map(row => (
         <CartItemRow
@@ -69,7 +77,7 @@ function Line({ label, value }: { label: string; value: number }) {
 }
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.background },
-  content: { padding: 16 },
+  content: { paddingHorizontal: 16 },
   title: {
     color: colors.text,
     fontSize: 28,

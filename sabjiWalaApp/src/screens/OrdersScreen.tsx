@@ -7,8 +7,10 @@ import { useApp } from '../context/AppContext';
 import { colors } from '../theme/colors';
 import OrderCard from '../components/OrderCard';
 import EmptyState from '../components/EmptyState';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function OrdersScreen() {
   const { orders, session, users, logout, refreshOrders } = useApp();
+  const insets = useSafeAreaInsets();
   const navigation =
     useNavigation<NativeStackNavigationProp<UserStackParamList>>();
   const ownOrders = orders.filter(order => order.userId === session);
@@ -20,7 +22,10 @@ export default function OrdersScreen() {
         keyExtractor={item => String(item.id)}
         refreshing={false}
         onRefresh={refreshOrders}
-        contentContainerStyle={styles.content}
+        contentContainerStyle={[
+          styles.content,
+          { paddingTop: insets.top + 16, paddingBottom: insets.bottom + 24 },
+        ]}
         ListHeaderComponent={
           <View style={styles.header}>
             <View>
@@ -42,7 +47,7 @@ export default function OrdersScreen() {
           <EmptyState
             title="No orders yet"
             message="Your freshly picked vegetables will show up here."
-            action={() => navigation.navigate('Tabs')}
+            action={() => navigation.navigate('Home' as never)}
           />
         }
       />
@@ -51,7 +56,7 @@ export default function OrdersScreen() {
 }
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.background },
-  content: { padding: 16, flexGrow: 1 },
+  content: { paddingHorizontal: 16, flexGrow: 1 },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',

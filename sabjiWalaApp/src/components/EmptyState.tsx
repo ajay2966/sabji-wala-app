@@ -23,7 +23,12 @@ export default function EmptyState({
   );
 }
 const styles = StyleSheet.create({
-  box: { alignItems: 'center', padding: 36 },
+  box: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 36,
+  },
   emoji: { fontSize: 42 },
   title: { color: colors.text, fontSize: 20, fontWeight: '800', marginTop: 10 },
   message: { color: colors.muted, textAlign: 'center', marginVertical: 8 },

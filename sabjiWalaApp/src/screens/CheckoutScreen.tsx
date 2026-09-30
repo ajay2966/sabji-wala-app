@@ -16,10 +16,12 @@ import { useApp } from '../context/AppContext';
 import { colors } from '../theme/colors';
 import { DELIVERY_FEE } from '../config/constants';
 import Button from '../components/Button';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function CheckoutScreen({
   navigation,
 }: NativeStackScreenProps<UserStackParamList, 'Checkout'>) {
   const { cart, products, address: savedAddress, placeOrder } = useApp();
+  const insets = useSafeAreaInsets();
   const [address, setAddress] = useState(savedAddress);
   const [slot, setSlot] = useState<'Morning' | 'Evening'>('Morning');
   const [error, setError] = useState('');
@@ -49,7 +51,10 @@ export default function CheckoutScreen({
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <ScrollView
-        contentContainerStyle={styles.content}
+        contentContainerStyle={[
+          styles.content,
+          { paddingTop: insets.top + 18, paddingBottom: insets.bottom + 28 },
+        ]}
         keyboardShouldPersistTaps="handled"
       >
         <Text style={styles.heading}>Delivery details</Text>
@@ -119,7 +124,7 @@ export default function CheckoutScreen({
 }
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.background },
-  content: { padding: 18 },
+  content: { paddingHorizontal: 18 },
   heading: {
     color: colors.text,
     fontSize: 22,

@@ -14,9 +14,14 @@ import ProductCard from '../components/ProductCard';
 import { colors } from '../theme/colors';
 import { UserStackParamList } from '../navigation/RootNavigator';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 const categories = ['All', 'Leafy', 'Roots', 'Fruit veg', 'Fruits'] as const;
 export default function HomeScreen() {
   const { products, users, session, addToCart } = useApp();
+  const insets = useSafeAreaInsets();
   const navigation =
     useNavigation<NativeStackNavigationProp<UserStackParamList>>();
   const [search, setSearch] = useState('');
@@ -32,12 +37,15 @@ export default function HomeScreen() {
     [products, search, category],
   );
   return (
-    <View style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top']}>
       <FlatList
         data={filtered}
         numColumns={2}
         keyExtractor={item => item.id}
-        contentContainerStyle={styles.list}
+        contentContainerStyle={[
+          styles.list,
+          { paddingTop: 12, paddingBottom: insets.bottom + 30 },
+        ]}
         ListHeaderComponent={
           <>
             <Text style={styles.greeting}>
@@ -87,12 +95,12 @@ export default function HomeScreen() {
           <Text style={styles.empty}>No vegetables match your search.</Text>
         }
       />
-    </View>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.background },
-  list: { padding: 14 },
+  list: { paddingHorizontal: 14 },
   greeting: {
     color: colors.text,
     fontSize: 26,
