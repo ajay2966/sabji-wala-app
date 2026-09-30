@@ -37,7 +37,8 @@ function FloatingTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
           typeof options.tabBarLabel === 'string'
             ? options.tabBarLabel
             : options.title || detail.label;
-        const badge = route.name === 'Cart' && cart.length > 0 ? cart.length : 0;
+        const badge =
+          route.name === 'Cart' && cart.length > 0 ? cart.length : 0;
 
         const onPress = () => {
           const event = navigation.emit({
@@ -80,7 +81,9 @@ function FloatingTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
               />
               {badge > 0 && (
                 <View style={styles.badge}>
-                  <Text style={styles.badgeText}>{badge > 9 ? '9+' : badge}</Text>
+                  <Text style={styles.badgeText}>
+                    {badge > 9 ? '9+' : badge}
+                  </Text>
                 </View>
               )}
             </View>
