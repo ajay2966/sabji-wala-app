@@ -31,13 +31,7 @@ export const seedProducts: Product[] = [
     30,
     'Juicy, ripe and perfect for everyday cooking.',
   ],
-  [
-    'Carrot',
-    '🥕',
-    'Roots',
-    45,
-    'Crunchy carrots, naturally sweet and fresh.',
-  ],
+  ['Carrot', '🥕', 'Roots', 45, 'Crunchy carrots, naturally sweet and fresh.'],
   [
     'Onion',
     '🧅',
@@ -52,27 +46,9 @@ export const seedProducts: Product[] = [
     25,
     'Versatile potatoes for curries, fries and more.',
   ],
-  [
-    'Spinach',
-    '🥬',
-    'Leafy',
-    40,
-    'Tender leafy greens packed with goodness.',
-  ],
-  [
-    'Coriander',
-    '🌿',
-    'Leafy',
-    20,
-    'Fragrant coriander to finish every dish.',
-  ],
-  [
-    'Cabbage',
-    '🥬',
-    'Leafy',
-    35,
-    'Crisp green cabbage with a fresh crunch.',
-  ],
+  ['Spinach', '🥬', 'Leafy', 40, 'Tender leafy greens packed with goodness.'],
+  ['Coriander', '🌿', 'Leafy', 20, 'Fragrant coriander to finish every dish.'],
+  ['Cabbage', '🥬', 'Leafy', 35, 'Crisp green cabbage with a fresh crunch.'],
   [
     'Cauliflower',
     '🥦',
@@ -143,13 +119,7 @@ export const seedProducts: Product[] = [
     55,
     'Ripe, creamy bananas for breakfast and snacks.',
   ],
-  [
-    'Lemon',
-    '🍋',
-    'Fruits',
-    90,
-    'Bright, juicy lemons to lift every recipe.',
-  ],
+  ['Lemon', '🍋', 'Fruits', 90, 'Bright, juicy lemons to lift every recipe.'],
 ].map(([name, emoji, category, pricePerKg, description], index) => ({
   id: `veg-${index + 1}`,
   name: name as string,
@@ -166,7 +136,9 @@ export async function loadProducts(): Promise<Product[]> {
   const catalog = products.length
     ? seedProducts.map(seed => {
         const stored = products.find(product => product.id === seed.id);
-        return stored ? { ...seed, ...stored, imageSource: seed.imageSource } : seed;
+        return stored
+          ? { ...seed, ...stored, imageSource: seed.imageSource }
+          : seed;
       })
     : seedProducts;
   await setItem(STORAGE_KEYS.products, catalog);

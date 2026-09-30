@@ -16,7 +16,11 @@ export default function ProductScreen({
     <View style={styles.safe}>
       <View style={styles.hero}>
         {product.imageSource ? (
-          <Image source={product.imageSource} style={styles.image} resizeMode="cover" />
+          <Image
+            source={product.imageSource}
+            style={styles.image}
+            resizeMode="cover"
+          />
         ) : (
           <Text style={styles.emoji}>{product.emoji}</Text>
         )}

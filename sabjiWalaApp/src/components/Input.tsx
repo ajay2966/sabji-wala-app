@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { colors } from '../theme/colors';
-export default function Input({ 
+export default function Input({
   label,
   error,
   compact = false,
@@ -17,7 +17,11 @@ export default function Input({
       <TextInput
         placeholderTextColor={colors.muted}
         {...props}
-        style={[styles.input, compact && styles.compactInput, error && styles.errorInput]}
+        style={[
+          styles.input,
+          compact && styles.compactInput,
+          error && styles.errorInput,
+        ]}
       />
       <>{error ? <Text style={styles.error}>{error}</Text> : null}</>
     </View>

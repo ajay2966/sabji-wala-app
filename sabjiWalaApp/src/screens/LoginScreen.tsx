@@ -35,7 +35,10 @@ export default function LoginScreen({
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
       >
-        <Image source={require('../assets/sabji-wala-logo.png')} style={styles.logo} />
+        <Image
+          source={require('../assets/sabji-wala-logo.png')}
+          style={styles.logo}
+        />
         <Text style={styles.title}>Welcome back</Text>
         <Text style={styles.subtitle}>
           Log in to continue your fresh order.
