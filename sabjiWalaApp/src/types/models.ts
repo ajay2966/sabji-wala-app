@@ -1,16 +1,20 @@
-export type Category = 'Leafy' | 'Roots' | 'Fruit veg' | 'Others';
+import { ImageSourcePropType } from 'react-native';
+
+export type Category = 'Leafy' | 'Roots' | 'Fruit veg' | 'Fruits' | 'Others';
 export type OrderStatus = 'pending' | 'confirmed' | 'rejected';
 
 export type User = {
   id: string;
   name: string;
   mobile: string;
+  address: string;
   createdAt: string;
 };
 export type Product = {
   id: string;
   name: string;
   emoji: string;
+  imageSource?: ImageSourcePropType;
   category: Category;
   pricePerKg: number;
   description: string;

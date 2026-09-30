@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { UserStackParamList } from '../navigation/RootNavigator';
 import { useApp } from '../context/AppContext';
@@ -15,7 +15,11 @@ export default function ProductScreen({
   return (
     <View style={styles.safe}>
       <View style={styles.hero}>
-        <Text style={styles.emoji}>{product.emoji}</Text>
+        {product.imageSource ? (
+          <Image source={product.imageSource} style={styles.image} resizeMode="cover" />
+        ) : (
+          <Text style={styles.emoji}>{product.emoji}</Text>
+        )}
       </View>
       <View style={styles.body}>
         <Text style={styles.name}>{product.name}</Text>
@@ -60,6 +64,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  image: { width: '100%', height: '100%' },
   emoji: { fontSize: 120 },
   body: { padding: 22 },
   name: { color: colors.text, fontSize: 30, fontWeight: '800' },

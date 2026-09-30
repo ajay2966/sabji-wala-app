@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   Alert,
+  Image,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -34,7 +35,7 @@ export default function LoginScreen({
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
       >
-        <Text style={styles.logo}>🥕</Text>
+        <Image source={require('../assets/sabji-wala-logo.png')} style={styles.logo} />
         <Text style={styles.title}>Welcome back</Text>
         <Text style={styles.subtitle}>
           Log in to continue your fresh order.
@@ -87,8 +88,8 @@ export default function LoginScreen({
 }
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.background },
-  content: { padding: 24, paddingTop: 72 },
-  logo: { fontSize: 54 },
+  content: { padding: 24, paddingTop: 48 },
+  logo: { width: 190, height: 190, alignSelf: 'center', resizeMode: 'contain' },
   title: { color: colors.text, fontSize: 30, fontWeight: '800', marginTop: 12 },
   subtitle: { color: colors.muted, marginVertical: 10, fontSize: 16 },
   link: {

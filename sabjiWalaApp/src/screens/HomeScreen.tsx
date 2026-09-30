@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import {
   FlatList,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -13,7 +14,7 @@ import ProductCard from '../components/ProductCard';
 import { colors } from '../theme/colors';
 import { UserStackParamList } from '../navigation/RootNavigator';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-const categories = ['All', 'Leafy', 'Roots', 'Fruit veg'] as const;
+const categories = ['All', 'Leafy', 'Roots', 'Fruit veg', 'Fruits'] as const;
 export default function HomeScreen() {
   const { products, users, session, addToCart } = useApp();
   const navigation =
@@ -46,11 +47,15 @@ export default function HomeScreen() {
             <TextInput
               value={search}
               onChangeText={setSearch}
-              placeholder="Search vegetables"
+              placeholder="Search vegetables & fruits"
               placeholderTextColor={colors.muted}
               style={styles.search}
             />
-            <View style={styles.chips}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.chips}
+            >
               {categories.map(item => (
                 <Pressable
                   key={item}
@@ -67,7 +72,7 @@ export default function HomeScreen() {
                   </Text>
                 </Pressable>
               ))}
-            </View>
+            </ScrollView>
             <Text style={styles.section}>Fresh picks</Text>
           </>
         }
@@ -110,7 +115,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: colors.text,
   },
-  chips: { flexDirection: 'row', marginVertical: 16 },
+  chips: { flexDirection: 'row', paddingVertical: 16 },
   chip: {
     paddingHorizontal: 14,
     paddingVertical: 9,

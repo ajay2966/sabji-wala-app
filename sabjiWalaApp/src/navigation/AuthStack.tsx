@@ -6,7 +6,12 @@ import OtpScreen from '../screens/OtpScreen';
 export type AuthParamList = {
   Register: undefined;
   Login: undefined;
-  Otp: { mode: 'register' | 'login'; name?: string; mobile: string };
+  Otp: {
+    mode: 'register' | 'login';
+    name?: string;
+    mobile: string;
+    address?: string;
+  };
 };
 const Stack = createNativeStackNavigator<AuthParamList>();
 export default function AuthStack() {

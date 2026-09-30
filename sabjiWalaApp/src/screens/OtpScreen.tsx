@@ -22,13 +22,13 @@ export default function OtpScreen({
   const { login, register } = useApp();
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
-  const { mode, mobile, name } = route.params;
+  const { mode, mobile, name, address } = route.params;
 
   const verify = async () => {
     if (otp !== FIXED_OTP) return setError('Incorrect OTP');
 
     if (mode === 'register') {
-      const result = await register(name || '', mobile);
+      const result = await register(name || '', mobile, address || '');
       if (result === 'exists') {
         setError('Account already exists, please login');
         return;

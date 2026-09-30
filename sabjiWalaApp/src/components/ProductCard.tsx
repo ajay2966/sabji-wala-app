@@ -1,5 +1,5 @@
-import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors } from '../theme/colors';
 import { Product } from '../types/models';
 export default function ProductCard({
@@ -11,9 +11,20 @@ export default function ProductCard({
   onPress: () => void;
   onAdd: () => void;
 }) {
+  const [imageFailed, setImageFailed] = useState(false);
+
   return (
     <Pressable onPress={onPress} style={styles.card}>
-      <Text style={styles.emoji}>{product.emoji}</Text>
+      {product.imageSource && !imageFailed ? (
+        <Image
+          source={product.imageSource}
+          style={styles.image}
+          resizeMode="cover"
+          onError={() => setImageFailed(true)}
+        />
+      ) : (
+        <Text style={styles.emoji}>{product.emoji}</Text>
+      )}
       <Text style={styles.name}>{product.name}</Text>
       <Text style={styles.price}>₹{product.pricePerKg}/kg</Text>
       <View style={styles.bottom}>
@@ -41,7 +52,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
   },
-  emoji: { fontSize: 48, marginBottom: 8 },
+  image: { width: '100%', height: 106, borderRadius: 12, marginBottom: 10 },
+  emoji: { fontSize: 48, marginBottom: 8, height: 106 },
   name: { color: colors.text, fontWeight: '800', fontSize: 16 },
   price: { color: colors.primary, fontWeight: '700', marginTop: 4 },
   bottom: {

@@ -34,7 +34,11 @@ function reducer(state: State, action: Action): State {
 }
 
 type ContextValue = State & {
-  register: (name: string, mobile: string) => Promise<string | null>;
+  register: (
+    name: string,
+    mobile: string,
+    address: string,
+  ) => Promise<string | null>;
   login: (mobile: string) => Promise<string | null>;
   logout: () => Promise<void>;
   addToCart: (productId: string, qtyKg?: number) => Promise<void>;
@@ -65,12 +69,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     })();
   }, []);
 
-  const register = async (name: string, mobile: string) => {
+  const register = async (name: string, mobile: string, address: string) => {
     if (state.users.some(user => user.mobile === mobile)) return 'exists';
     const user: User = {
       id: `user-${Date.now()}`,
       name,
       mobile,
+      address,
       createdAt: new Date().toISOString(),
     };
     const users = [...state.users, user];
@@ -78,6 +83,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     await authService.saveSession(user.id);
     dispatch({ type: 'set', key: 'users', value: users });
     dispatch({ type: 'set', key: 'session', value: user.id });
+    await setItem(`address:${user.id}`, address);
+    dispatch({ type: 'set', key: 'address', value: address });
     return null;
   };
   const login = async (mobile: string) => {
@@ -85,8 +92,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (!user) return 'missing';
     await authService.saveSession(user.id);
     const cart = await cartService.getCart(user.id);
+    const address = user.address || (await getItem(`address:${user.id}`, ''));
     dispatch({ type: 'set', key: 'session', value: user.id });
     dispatch({ type: 'set', key: 'cart', value: cart });
+    dispatch({ type: 'set', key: 'address', value: address });
     return null;
   };
   const logout = async () => {
